@@ -86,8 +86,7 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                             </tr>
                             {% endfor %}
                         </tbody>
-                        {% for d, cal in total_calories.items %} {% if d == date
-                        %}
+                        {% for d, cal in total_calories.items %} {% if d == date%}
                         <tfoot>
                             <th style="text-align: center" scope="col">
                                 Total Calories
