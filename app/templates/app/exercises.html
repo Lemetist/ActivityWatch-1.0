@@ -2,10 +2,10 @@
 {% load static %}
 {% block style %}
     .boxes{
-        width: 95%; 
-        height: 650px; 
-        overflow-x: hidden; 
-        overflow-y: auto; 
+        width: 95%;
+        height: 650px;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     .selection-box{
         padding: 10px 0 10px 30px;
@@ -94,79 +94,79 @@
     }
 {% endblock style %}
 {% block body %}
-    <h1 class="header pb-0 mb-0 pl-0" style="text-align: left;">Exercise Catalog</h1>
-    <p class="text-muted">Get inspired and build your next workout from our extensive library of workouts.</p>
+    <h1 class="header pb-0 mb-0 pl-0" style="text-align: left;">Каталог упражнений</h1>
+    <p class="text-muted">Вдохновляйтесь и создавайте свою следующую тренировку с помощью нашей обширной библиотеки тренировок.</p>
     <hr>
     <div class="boxes">
 
         <!--Display muscle groups-->
         <div class="selection-box">
-            <h5 style="padding-left: 10px;">Select a muscle from the list below:</h5>
+            <h5 style="padding-left: 10px;">Выберите группу мышц из списка ниже:</h5>
             <div class="muscle-container">
                 <div class="vertical-container">
                     <form action='117' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button9_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Hips</Button>  
+                        <Button class="{{classes.button9_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Грудная</Button>
                     </form>
                     <form action='118' method='POST'>
-                        {% csrf_token %}                  
-                        <Button class="{{classes.button10_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Buttocks</Button>
+                        {% csrf_token %}
+                        <Button class="{{classes.button10_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Бедра</Button>
                     </form>
                     <form action='119' method='POST'>
-                        {% csrf_token %}                  
-                        <Button class="{{classes.button13_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Quads</Button>
+                        {% csrf_token %}
+                        <Button class="{{classes.button13_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Бицепс</Button>
                     </form>
                     <form action='120' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button11_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Hamstrings</Button>
+                        <Button class="{{classes.button11_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Квадрицепс</Button>
                     </form>
                     <form action='121' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button12_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Calves</Button>
+                        <Button class="{{classes.button12_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Голень</Button>
                     </form>
                 </div>
                 <div class="vertical-container">
                     <form action='110' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button4_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Trapezius</Button>
+                        <Button class="{{classes.button4_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Трапеция</Button>
                     </form>
                     <form action='111' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button5_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Shoulders</Button>
+                        <Button class="{{classes.button5_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Плечи</Button>
                     </form>
                     <form action='112' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button6_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Triceps</Button>
+                        <Button class="{{classes.button6_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Трицепс</Button>
                     </form>
                     <form action='113' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button7_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Biceps</Button>
+                        <Button class="{{classes.button7_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Бицепс</Button>
                     </form>
                     <form action='114' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button8_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Forearms</Button> 
-                </form>                   
+                        <Button class="{{classes.button8_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Предплечья</Button>
+                </form>
                 </div>
                 <div class="vertical-container">
                     <form action='101' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button14_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Cardio</Button>
+                        <Button class="{{classes.button14_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Кардио</Button>
                     </form>
                     <form action='102' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button1_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Chest</Button>
+                        <Button class="{{classes.button1_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Грудь</Button>
                     </form>
                     <form action='106' method='POST'>
                         {% csrf_token %}
-                        <button class="{{classes.button2_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Back</Button>
+                        <button class="{{classes.button2_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Назад</Button>
                     </form>
                     <form action='103' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button3_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Abs</Button>
+                        <Button class="{{classes.button3_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">пресс</Button>
                     </form>
                     <form action='104' method='POST'>
                         {% csrf_token %}
-                        <Button class="{{classes.button15_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Obliques</Button>
+                        <Button class="{{classes.button15_class}}" style="width: 95%; margin: 0.2vw; line-height: 1.2;">Косые</Button>
                     </form>
                 </div>
             </div>
@@ -179,12 +179,12 @@
                 <div class="header">
                     <img src="{% static 'getStarted.jpg' %}" class="exercises-box-img">
                     <div class="exercises-box-text">
-                        <h1 class="title">On your marks... Get set... Go!</h1></br>
-                        <h3 class="subtitle">Select a muscle group or exercise category to get started</h3>
-                        <h6 class="subtitle">or click below to see the full list:</h3></br></br>
+                        <h1 class="title">Oна старт... внимание... марш!</h1></br>
+                        <h3 class="subtitle">Выберите группу мышц или категорию упражнений, чтобы начать</h3>
+                        <h6 class="subtitle">или нажмите ниже, чтобы увидеть полный список:</h3></br></br>
                         <form action='100' method='POST'>
                             {% csrf_token %}
-                            <Button class="btn btn-default btn-lg">See full list</Button>  
+                            <Button class="btn btn-default btn-lg">Посмотреть полный список</Button>
                         </form>
                     </div>
                 </div>
@@ -200,25 +200,24 @@
                     </div>
                 {% endfor %}
             {% endif %}
-                <h5 style="padding-left: 10px;">Recommended exercises: </h5>
+                <h5 style="padding-left: 10px;">Рекомендуемые упражнения: </h5>
                 {% for exercise in exercises %}
-                    <div class="exercise">                     
+                    <div class="exercise">
                         <img src="/static/exerciseImages/{{exercise.image_link}}" class="exercise-image">
                         <p class="exercise-text" style="margin-bottom: 5px;">
                             <!--Pending: populate exercise log with selected exercise-->
                             <a id={{exercise.ex_id}} href="{% url 'exlog-add-from-recommender' exercise.name %}">
-                                <Button class="btn btn-outline-secondary btn-sm" style="float: right; line-height: 1.2;">Add to Today's Workout</Button>
+                                <Button class="btn btn-outline-secondary btn-sm" style="float: right; line-height: 1.2;">Добавить к сегодняшней тренировке</Button>
                             </a>
                             <strong>{{exercise.name}}</strong></br>
-                            <em style="font-size: 80%;">Category: {{exercise.group}}</em></br>
-                        </p>   
+                            <em style="font-size: 80%;">Категория: {{exercise.group}}</em></br>
+                        </p>
                         <p class="exercise-text">
                             {{exercise.description}}
-                        </p>                      
+                        </p>
                     </div>
                 {% endfor %}
             </div>
         {% endif %}
     </div>
 {% endblock body %}
-

@@ -101,8 +101,8 @@
     }
     <!--
     .footer{
-        width: 100%; 
-        height: 150px; 
+        width: 100%;
+        height: 150px;
         background-color: #61605c;
         text-align: center;
     }
@@ -135,73 +135,71 @@
         {% endfor %}
         <img src="{% static 'fitness.jpg' %}" class="header-img">
         <div class="header-text">
-            <h1 class="title">Welcome to FitTrack!</h1>
-            <h3 class="subtitle">FitTrack helps you stay motivated and stick with your workout routine and diet plan.</h3>
+            <h1 class="title">Welcome to ActiwityWatch!</h1>
+            <h3 class="subtitle">ActivityWatch помогает сохранять мотивацию и придерживаться тренировочного режима и плана питания..</h3>
             {% if user.is_authenticated %}
                 <a href={% url 'app:exercises' %}>
-                    <Button class="btn btn-default btn-lg">Get Started</Button>
+                    <Button class="btn btn-default btn-lg">Начать</Button>
                 </a>
             {% else %}
                 <a href={% url 'app:login' %}>
-                    <Button class="btn btn-default btn-lg">Get Started</Button>
+                    <Button class="btn btn-default btn-lg">Начать</Button>
                 </a>
             {% endif %}
         </div>
-        
+
     </div>
     <div class="boxes">
         <div class="box1">
             <div class="box1-img">
                 <img src="{%  static 'box1img.png' %}" class="box-img">
             </div>
-            <h2 style="margin-top: 50px;">Find Exercises</h2>
+            <h2 style="margin-top: 50px;">Найди упражнения</h2>
             <p style="margin-right: 8%;">
-                Find the best exercises to fit your needs with our exercise search 
-                tool and build your perfect workout routine. Search through our exercise
-                library or discover the ideal exercise by muscle group.
+                Найди лучшие упражнения, подходящие именно тебе, с помощью нашего инструмента поиска.
+                Составь идеальную тренировку, просматривая библиотеку упражнений или выбирая
+                по группам мышц.
             </p>
         </div>
         <div class="box2">
             <div class="box2-img">
                 <img src="{%  static 'box2img.png' %}" class="box-img">
             </div>
-            <h2 style="margin-top: 50px; margin-left: 8%;">Track Workout Routines</h2>
+            <h2 style="margin-top: 50px; margin-left: 8%;">Отслеживайте программы тренировок</h2>
             <p style="margin-left: 8%;">
-                Record your workout routines in our exercise log. You can keep track
-                of the number of sets that you are doing, the number of repetitions, 
-                and weight.                 
+                Записывайте свои тренировки в наш журнал упражнений. Вы можете отслеживать
+                количество подходов, которые вы делаете, количество повторений и вес.
             </p>
         </div>
         <div class="box3">
             <div class="box1-img">
                 <img src="{%  static 'box3img.png' %}" class="box-img">
             </div>
-            <h2 style="margin-top: 50px;">Log Weight History</h2>
+            <h2 style="margin-top: 50px;">Журнал истории веса</h2>
             <p style="margin-right: 10%;">
-                With our weight tracker, you will be able to reach your weight goal and 
-                maintain it. You will be able to look back at your weight history and 
-                enjoy your improvement over time.  
+                С нашим трекером веса вы сможете достичь своей цели по весу и
+                поддерживать ее. Вы сможете просмотреть историю своего веса и
+                наслаждаться улучшением с течением времени.
             </p>
         </div>
         <div class="box4">
             <div class="box2-img">
                 <img src="{%  static 'box4img.png' %}" class="box-img">
             </div>
-            <h2 style="margin-top: 50px; margin-left: 8%;">Track Caloric Intake</h2>
+            <h2 style="margin-top: 50px; margin-left: 8%;">Отслеживайте потребление калорий</h2>
             <p style="margin-left: 8%;">
-                Our food diary lets you record how many calories you consume during the
-                day. It allows you to keep track of the food that you are eating, a 
-                brief description of it, and the number of calories that it contains.
+                Наш дневник питания позволяет вам записывать, сколько калорий вы потребляете в течение
+                дня. Он позволяет вам отслеживать пищу, которую вы едите,
+                ее краткое описание и количество калорий, которые она содержит.
             </p>
         </div>
         <div class="box3">
             <div class="box1-img">
                 <img src="{%  static 'box5img.png' %}" class="box-img">
             </div>
-            <h2 style="margin-top: 50px;">See Results</h2>
+            <h2 style="margin-top: 50px;">Посмотреть результаты</h2>
             <p style="margin-right: 10%;">
-                Our results page makes it easy for you to visualize your progress over 
-                time, helping you to stay motivated and focus on your fitness goals.             </p>
+                Наша страница результатов позволяет вам легко визуализировать свой прогресс с течением времени, помогая вам сохранять мотивацию и сосредоточиться на своих фитнес-целях.             </p>
         </div>
     </div>
     <!--<footer class="footer">
