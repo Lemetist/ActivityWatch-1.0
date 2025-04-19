@@ -7,19 +7,19 @@
 
         <div class="card-title">
                 {% if exlog.user == user %}
-                    <a class="btn btn-secondary btn-nm mb-2 pull-right ml-1" href="{% url 'exlog-update' exlog.id %}"><i class="fa fa-edit"></i> Update</a>
-                    <a class="btn btn-danger btn-nm mb-2 pull-right mr-1" href="{% url 'exlog-delete' exlog.id %}"><i class="fa fa-trash"></i> Delete</a>
+                    <a class="btn btn-secondary btn-nm mb-2 pull-right ml-1" href="{% url 'exlog-update' exlog.id %}"><i class="fa fa-edit"></i> Обновить</a>
+                    <a class="btn btn-danger btn-nm mb-2 pull-right mr-1" href="{% url 'exlog-delete' exlog.id %}"><i class="fa fa-trash"></i> Удалить</a>
                 {% endif %}
-                <h2 class="mt-1 mb-2">{{ exlog.date | date:"F d, Y"}} Workout</h2>
+                <h2 class="mt-1 mb-2">Тренировка {{ exlog.date | date:"d F Y"}}</h2>
         </div>
-        
+
         <table class="table table-sm table-bordered card-text">
                 <thead>
                     <tr>
-                        <th>Exercise</th>
-                        <th>Weight</th>
-                        <th>Sets</th>
-                        <th>Reps</th>
+                        <th>Упражнение</th>
+                        <th>Вес</th>
+                        <th>Подходы</th>
+                        <th>Повторения</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -30,7 +30,7 @@
                             <td>{{ exercise.exercise_name }}</td>
                             <td>
                                 {% if exercise.exercise_weight != 0 %}
-                                    {{ exercise.exercise_weight }} lbs
+                                    {{ exercise.exercise_weight }} кг
                                 {% else %}
                                     --
                                 {% endif %}
@@ -64,7 +64,7 @@
         {% if exlog.user == user %}
         <div class="row">
             <div class="col-sm-4 col-12">
-                <a class="btn btn-success btn-ms mb-1" href="{% url 'exlog-add-exercise' exlog.id %}"><i class="fa fa-plus"></i> Add Exercise</a>
+                <a class="btn btn-success btn-ms mb-1" href="{% url 'exlog-add-exercise' exlog.id %}"><i class="fa fa-plus"></i> Добавить упражнение</a>
             </div>
         </div>
         {% endif %}

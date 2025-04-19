@@ -10,9 +10,9 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">
                 {% if url_name == 'exlog-create'%}
-                    New Exercise Log
+                    Новый журнал упражнений
                 {% else %}
-                    Update Exercise Log
+                    Обновить журнал упражнений
                 {% endif %}
             </legend>
             {{ form.as_p }}
@@ -21,9 +21,9 @@
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">
                 {% if url_name == 'exlog-create'%}
-                    Add New Workout
+                    Добавить новую тренировку
                 {% else %}
-                    Update Workout
+                    Обновить тренировку
                 {% endif %}
             </button>
         </div>

@@ -36,9 +36,9 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                     {% endif %} {% for date, foods in data.items %}
                     <div class="date">
                         {% if date == today_date %}
-                        <h4>Today</h4>
+                        <h4>Сегодня</h4>
                         {% elif date == yesterday_date %}
-                        <h4>Yesterday</h4>
+                        <h4>Вчера</h4>
                         {% else %}
                         <h4>{{ date }}</h4>
                         {% endif %}
@@ -76,7 +76,7 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                                                 border: none;
                                                 background-color: transparent;
                                             "
-                                            value="Delete"
+                                            value="Удалить"
                                             class="p-0 m-0 text-danger pl-3 pr-1"
                                         >
                                             <i class="fa fa-trash"></i>
@@ -89,7 +89,7 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                         {% for d, cal in total_calories.items %} {% if d == date%}
                         <tfoot>
                             <th style="text-align: center" scope="col">
-                                Total Calories
+                                Всего калорий
                             </th>
                             <th style="text-align: center" scope="col">
                                 {{ cal }}
@@ -122,7 +122,7 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                                             name="sub_btn_1"
                                             class="add btn btn-block btn-primary mb-2"
                                         >
-                                            Add
+                                            Добавить
                                         </button>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@ margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
                                             name="sub_btn_2"
                                             class="add btn btn-block btn-primary mb-2"
                                         >
-                                            Add
+                                            Добавить
                                         </button>
                                     </div>
                                 </div>

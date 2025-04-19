@@ -11,17 +11,17 @@
 <div class="card mb-3">
     <div class="card-body">
         <div class="card-title h3">
-             <a class="btn btn-primary btn-sm pull-right" href="{% url 'exlog-detail' exlog.id %}">Details</a>
-            {{ exlog.date | date:"F d, Y"}} Workout
+             <a class="btn btn-primary btn-sm pull-right" href="{% url 'exlog-detail' exlog.id %}">Подробности</a>
+            {{ exlog.date | date:"F d, Y"}} Тренировка
         </div>
         <div class="card-text">
             <table class="table table-sm table-bordered">
                 <thead>
                     <tr>
-                        <th>Exercise</th>
-                        <th>Weight</th>
-                        <th>Sets</th>
-                        <th>Reps</th>
+                        <th>Упражнение</th>
+                        <th>Вес</th>
+                        <th>Подходы</th>
+                        <th>Повторения</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +31,7 @@
                             <td>{{ exercise.exercise_name }}</td>
                             <td>
                                 {% if exercise.exercise_weight != 0 %}
-                                    {{ exercise.exercise_weight }} lbs
+                                    {{ exercise.exercise_weight }} кг
                                 {% else %}
                                     --
                                 {% endif %}

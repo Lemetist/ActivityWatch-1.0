@@ -13,17 +13,17 @@
         <div class="row">
             <div class="col-10 offset-1">
                 {% if savedWeight %}
-                    <div class="alert alert-success fade">Logged Weight. Great job!</div>
+                    <div class="alert alert-success fade">Вес записан. Отличная работа!</div>
                 {% endif %}
-                <h1 class="mb-0">Weight Log</h1>
-                <p class="text-muted">Track your weight over time so that you can view your progress.</p>
+                <h1 class="mb-0">Журнал веса</h1>
+                <p class="text-muted">Отслеживайте свой вес с течением времени, чтобы видеть свой прогресс.</p>
                 <hr>
                 <br>
                 <form class="form-inline pb-3" action="" method="post">
                     {% csrf_token %}
                     {{ form }}
 
-                    <button type="submit" class="btn btn-primary btn-sm ml-2">Log</button>
+                    <button type="submit" class="btn btn-primary btn-sm ml-2">Записать</button>
                 </form>
                 <div class="card" style="height: 500px; overflow-y: auto;">
                     <div class="card-body">
@@ -31,18 +31,18 @@
                             <table class="table">
                                 <thead>
                                   <tr>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Weight</th>
+                                    <th scope="col">Дата</th>
+                                    <th scope="col">Вес</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                     {% if weight_logs|length < 1 %}
-                                        <tr><td class="text-center" colspan="2">What are you waiting for? Log your weight above!</td></tr>
+                                        <tr><td class="text-center" colspan="2">Чего вы ждете? Запишите свой вес выше!</td></tr>
                                     {% else %}
                                         {% for weight in weight_logs %}
                                             <tr>
                                                 <th scope="row">{{weight.timestamp}}</th>
-                                                <td>{{weight.weight}} lbs</td>
+                                                <td>{{weight.weight}} кг</td>
                                             </tr>
                                         {% endfor %}
                                     {% endif %}

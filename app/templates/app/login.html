@@ -5,7 +5,7 @@
         <form class="shadow bg-white rounded login" method="POST">
             {% csrf_token %}
             <img src="{% static 'logo.png' %}" class="logo">
-            <h1 class="text">Log In</h1>
+            <h1 class="text">Вход</h1>
             {% if form.errors %}
                 <div class="errors">
                     {{ form.non_field_errors }}
@@ -34,7 +34,7 @@
                 {# <input class="form-control" placeholder="Password" type="password" required> #}
                 {{ form.password }}
             </div>
-            <Button class="btn btn-secondary" type="submit">Sign In</Button>
+            <Button class="btn btn-secondary" type="submit">Войти</Button>
         </form>
     </div>
 {% endblock body %}

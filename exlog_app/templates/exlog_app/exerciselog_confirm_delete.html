@@ -6,12 +6,12 @@
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Delete Exercise Log?</legend>
-            <h3>Are you sure you want to delete "{{ object.date|date:"F d, Y"}} Workout" (and its Exercises) from the database?</h3>
+            <legend class="border-bottom mb-4">Удалить журнал упражнений?</legend>
+            <h3>Вы уверены, что хотите удалить "Тренировку {{ object.date|date:"d F Y"}}" (и её упражнения) из базы данных?</h3>
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-danger" type="submit">Yes, Delete The Workout</button>
-            <a class="btn btn-outline-secondary" href="{% url 'exlog-detail' object.id %}">No, Cancel</a>
+            <button class="btn btn-outline-danger" type="submit">Да, удалить тренировку</button>
+            <a class="btn btn-outline-secondary" href="{% url 'exlog-detail' object.id %}">Нет, отмена</a>
         </div>
     </form>
 

@@ -3,18 +3,18 @@
     {# insert css stylings specific to page here #}
 {% endblock style %}
 {% block body %}
-    <h1>Results</h1>
-    <p class="text-muted">View your progress over time.</p>
+    <h1>Результаты</h1>
+    <p class="text-muted">Просмотр вашего прогресса с течением времени.</p>
     <hr>
     <div class="row">
         <div class="col-3">
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">
-                        {{ change }} <span class="small">lbs</span>
+                        {{ change }} <span class="small">кг</span>
                     </h1>
                     <p class="card-text">
-                        <i class="fa fa-line-chart"></i> Weight Change
+                        <i class="fa fa-line-chart"></i> Изменение веса
                         <br>
                         <span>&shy;</span>
                     </p>
@@ -28,7 +28,7 @@
                         {{ str_change }} <span class="small">%</span>
                     </h1>
                     <p class="card-text">
-                        <i class="fa fa-bolt"></i>  Strength Change {% if not request.GET.ex %} <br><span class="small text-danger">No Exercise Selected</span> {% else %} <br><span>&shy;</span>{% endif %}
+                        <i class="fa fa-bolt"></i>  Изменение силы {% if not request.GET.ex %} <br><span class="small text-danger">Упражнение не выбрано</span> {% else %} <br><span>&shy;</span>{% endif %}
                     </p>
                 </div>
             </div>
@@ -37,10 +37,10 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">
-                       {{ avg_cals }} <span class="small">cals</span>
+                       {{ avg_cals }} <span class="small">ккал</span>
                     </h1>
                     <p class="card-text">
-                        <i class="fa fa-cutlery"></i>  Avg Daily Consumption
+                        <i class="fa fa-cutlery"></i>  Среднее дневное потребление
                         <br>
                         <span>&shy;</span>
                     </p>
@@ -51,10 +51,10 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">
-                        {{ average }} <span class="small">lbs</span>
+                        {{ average }} <span class="small">кг</span>
                     </h1>
                     <p class="card-text">
-                        <i class="fa fa-balance-scale"></i>  Average Weight
+                        <i class="fa fa-balance-scale"></i>  Средний вес
                         <br>
                         <span>&shy;</span>
                     </p>
@@ -68,15 +68,15 @@
                 <div class="card-body">
                     <form action="/results/" class="form-inline" style="float:right">
                         <select name="ex" id="ex" class="form-control">
-                            <option selected disabled>Select Exercise</option>
+                            <option selected disabled>Выберите упражнение</option>
                             {% for name in ex_names %}
                                 <option value="{{ name }}" {% if name == request.GET.ex %} selected {% endif %}>{{ name }}</option>
                             {% endfor %}
                         </select>
-                        <Button class="btn btn-outline-secondary form-control" type="submit">Submit</Button>
+                        <Button class="btn btn-outline-secondary form-control" type="submit">Отправить</Button>
                     </form>
                     <h4 class="card-title">
-                        Strength Increase ({{ request.GET.ex }})
+                        Увеличение силы ({{ request.GET.ex }})
                     </h4>
                     <p class="card-text">
                         <img style="padding-top:2%"src="data:image/png;base64,{{ img3 }}" width="100%">
@@ -88,7 +88,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        Daily Calorie Consumption
+                        Ежедневное потребление калорий
                     </h4>
                     <p class="card-text">
                         <img src="data:image/png;base64,{{ img2 }}" width="100%">
@@ -102,7 +102,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        Weight History
+                        История веса
                     </h4>
                     <p class="card-text">
                         <img src="data:image/png;base64,{{ img1 }}" width="100%">

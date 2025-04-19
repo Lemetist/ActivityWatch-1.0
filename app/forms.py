@@ -45,5 +45,6 @@ class FoodFormTheSecond(forms.Form):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
         super(FoodFormTheSecond, self).__init__(*args, **kwargs)
-        self.fields['description'].choices = Food_Entry.objects.filter(user=self.request.user).order_by('description').values_list("description", "description").distinct()
-
+        food_entries = Food_Entry.objects.filter(user=self.request.user).order_by('description').values_list("description", flat=True).distinct()
+        # Ensure choices are properly formatted as tuples of (value, label)
+        self.fields['description'].choices = [(desc, desc) for desc in food_entries] if food_entries else [('', '-- Select a food --')]
