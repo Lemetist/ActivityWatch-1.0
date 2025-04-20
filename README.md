@@ -1,29 +1,50 @@
-# FitTrack
+## Описание проекта
+FitTrack - это веб-приложение на Django, разработанное для помощи пользователям в отслеживании их тренировок, питания и прогресса в фитнесе. Приложение позволяет пользователям регистрировать упражнения, отслеживать вес и калории, а также анализировать свой прогресс.
+## Основные функции
+- **Журнал упражнений**: Отслеживание тренировок с информацией о подходах, повторениях и весе
+- **Отслеживание веса**: Запись и мониторинг изменений веса
+- **Учет питания**: Отслеживание потребления калорий
+- **База данных упражнений**: Доступ к различным упражнениям с описаниями и изображениями
 
-## For Production Release
-Link to GitHub repo - https://github.com/kdagnan/FitTrack.git  
-FitTrack is a web app where users can track all aspects of their fitness: including exercises, weight, and caloric intake. Users can then track their progess on strength gains, caloric intake, and weight history visually with graphs.  
+## Структура проекта
+Проект состоит из следующих основных модулей:
+- - основное приложение с функционалом для упражнений, веса и питания `app`
+- - журнал упражнений с расширенными возможностями `exlog_app`
+- - основной модуль проекта с настройками Django `FitTrack`
 
-1. Unarchive FitTrack.tgz (tar -xvzf FitTrack.tgz)
-2. "pip install ." to install all dependencies outlined in the setup.py
-2. Execute init.py to initialize project and create sqlite database
-3. Execute run.py file to run server on localhost:8000
+## Модели данных
+### ExerciseLog
+Записи о тренировках пользователя с привязкой по дате.
+### Exercise
+Информация об упражнениях, включая название, группу мышц, описание и изображение.
+### WeightLog
+Позволяет отслеживать вес пользователя с привязкой ко времени.
+### Food_Entry
+Запись о потреблении пищи с указанием калорийности.
+## Установка и запуск
+1. Клонируйте репозиторий
+2. Установите зависимости:
+``` 
+   pip install -r requirements.txt
+```
+1. Примените миграции:
+``` 
+   python manage.py migrate
+```
+1. Запустите сервер:
+``` 
+   python manage.py runserver
+```
+## Технологии
+- Python 3.13.3
+- Django
+- SQLite (для разработки)
+- Virtualenv для управления зависимостями
 
-Note: If you try to sign up and are not redirected to the log in page, make sure your password meets these requirements:
- - Your password cannot be too similar to your other personal information
- - Your password must contain at least 8 characters
- - Your password can't be a commonly used password
- - Your password can't be entirely numeric
- - The two password fields must match
-
-## Setting Up Through Cloning Repo
-1. Create a venv (https://docs.python.org/3/tutorial/venv.html)
-2. Git Clone (https://github.com/kdagnan/FitTrack.git) into Django directory in venv directory
-3. Install Django (python -m pip install Django)
-4. Run python manage.py migrate
-5. Run python manage.py runserver
-6. Visit localhost:8000
-7. Try to push a commit just to test.
-
-#### Example of Filesystem After Setup
-![image](https://i.imgur.com/ZMN1sl0.png)
+## Контейнеризация
+Проект поддерживает Docker. Для сборки и запуска контейнера используйте Dockerfile, включенный в репозиторий.
+## Разработка
+Для добавления новых упражнений в базу данных можно использовать скрипт и файл . `jsonToDatabase.py``Exercises.json`
+## Лицензия
+Проект распространяется в открытом доступе.
+    
