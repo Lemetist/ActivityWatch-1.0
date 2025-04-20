@@ -22,3 +22,5 @@ app/__pycache__/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+# Local environment variables
+.env
