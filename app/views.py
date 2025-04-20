@@ -63,7 +63,7 @@ def exercises(request, active_exercises=0):
 
         exercise_list = []
 
-        with open(os.path.dirname(os.path.realpath(__file__)) + '/Exercises.json') as f:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'Exercises.json'), encoding='utf-8') as f:
             data = json.load(f)
 
         if (active_exercises == 100):
