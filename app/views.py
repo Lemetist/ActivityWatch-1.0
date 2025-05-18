@@ -20,6 +20,8 @@ import urllib, base64
 import matplotlib.pyplot as plt
 import json, os, matplotlib
 import numpy as np
+from django.contrib.auth.decorators import login_required
+import csv
 
 def button_class(active_exercise, button):
     if active_exercise == button:
@@ -212,10 +214,15 @@ def results(request):
         counts = []
         avgCals = 0
         for item in list:
-            print(item)
             date = item.get('_date')
-            date = date.split('-')
-            dates.append(date[1] + '-' + date[2])
+            if isinstance(date, str):
+                # старый формат (на всякий случай)
+                parts = date.split('-')
+                dates.append(f"{parts[2]}.{parts[1]}")
+            elif hasattr(date, 'strftime'):
+                dates.append(date.strftime('%d.%m'))
+            else:
+                dates.append(str(date))
             cals.append(item.get('val'))
             counts.append(item.get('count'))
             avgCals = avgCals + item.get('val') * item.get('count')
@@ -338,3 +345,37 @@ def logout_user(request):
     logout(request)
     messages.info(request, "Вы вышли из системы.")
     return redirect('app:home')
+
+@login_required
+def export_data_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="fittrack_data.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Тип', 'Дата/Время', 'Описание', 'Значение', 'Калории'])
+    # Вес
+    for w in WeightLog.objects.filter(user=request.user):
+        writer.writerow(['Вес', w.timestamp, '', w.weight, ''])
+    # Питание
+    for f in Food_Entry.objects.filter(user=request.user):
+        writer.writerow(['Питание', f.date, f.description, '', f.calories])
+    # Упражнения
+    for log in ExerciseLog.objects.filter(user=request.user):
+        for ex in Exercise_App.objects.filter(exercise_log=log):
+            writer.writerow(['Упражнение', log.date, ex.exercise_name, ex.exercise_weight, ''])
+    return response
+
+@login_required
+def export_data_json(request):
+    data = {
+        'weight': list(WeightLog.objects.filter(user=request.user).values()),
+        'food': list(Food_Entry.objects.filter(user=request.user).values()),
+        'exercises': [
+            {
+                'date': log.date,
+                'exercises': list(Exercise_App.objects.filter(exercise_log=log).values())
+            } for log in ExerciseLog.objects.filter(user=request.user)
+        ]
+    }
+    response = HttpResponse(json.dumps(data, ensure_ascii=False, default=str), content_type='application/json')
+    response['Content-Disposition'] = 'attachment; filename="fittrack_data.json"'
+    return response

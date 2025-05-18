@@ -6,6 +6,14 @@
     <h1>Результаты</h1>
     <p class="text-muted">Просмотр вашего прогресса с течением времени.</p>
     <hr>
+    <div class="mb-4">
+        <a href="{% url 'app:export_csv' %}">
+            <Button class="btn btn-outline-success">Экспорт CSV</Button>
+        </a>
+        <a href="{% url 'app:export_json' %}">
+            <Button class="btn btn-outline-success">Экспорт JSON</Button>
+        </a>
+    </div>
     <div class="row">
         <div class="col-3">
             <div class="card">

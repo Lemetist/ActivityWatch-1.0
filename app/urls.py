@@ -14,5 +14,7 @@ urlpatterns = [
     path('login/', django_views.LoginView.as_view(template_name='app/login.html',
                                                   authentication_form=forms.UserAuthenticationForm), name='login'),
     path('logout/', views.logout_user, name='logout'),
-    path('signup/', views.signup, name='signup')
+    path('signup/', views.signup, name='signup'),
+    path('export/csv/', views.export_data_csv, name='export_csv'),
+    path('export/json/', views.export_data_json, name='export_json')
 ]
