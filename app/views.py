@@ -130,7 +130,10 @@ def foodtracker(request):
         elif request.method == 'POST':
             f = Food_Entry.objects.filter(user=request.user, pk=request.POST['pk']).first()
             Food_Entry.objects.filter(user=request.user, pk=request.POST['pk']).delete()
-            messages.success(request, "Успешно удалено: " + f.description + ".", extra_tags='success')
+            if f:
+                messages.success(request, "Успешно удалено: " + f.description + ".", extra_tags='success')
+            else:
+                messages.success(request, "Запись уже удалена.", extra_tags='success')
         # Создание форм
         form = FoodForm()
         form_2 = FoodFormTheSecond(request=request)
