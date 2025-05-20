@@ -42,7 +42,8 @@ class Exercise(models.Model) :
         exercise_weight (int): Вес для упражнения.
     """
     exercise_log = models.ForeignKey(ExerciseLog, on_delete=models.CASCADE)
-    alpha_num_dash = RegexValidator(r'^[0-9a-zA-Z\-\s]*$', 'Only alphanumeric characters and dashes are allowed.')
+    # Разрешаем кириллицу, латиницу, цифры, дефисы и пробелы
+    alpha_num_dash = RegexValidator(r'^[0-9a-zA-Zа-яА-ЯёЁ\-\s]*$', 'Только буквы, цифры, дефисы и пробелы разрешены.')
     exercise_name = models.CharField(max_length=32, validators=[alpha_num_dash])
     num_sets = models.PositiveIntegerField()
     num_reps = models.PositiveIntegerField()
