@@ -1,166 +1,107 @@
-{% extends "app/base.html" %} {% load static %} {% block style %} .header {
-margin-bottom: 3%; } .boxes { width: 100%; height: 700px; overflow-x: hidden;
-overflow-y: auto; } .add { margin-top: 2%; width: 100%; } .date { float: left; }
-.centered-div { display: flex; justify-content: center; align-items: center; }
-.add-form { margin-top: 5%; margin-bottom: 5%; } .content-section { background:
-#f5f3f3; padding: 15px 20px; border: 1px solid #dddddd; border-radius: 3px;
-margin-bottom: 20px; width: 100%; } .delete-btn { display: block; margin: auto;
-} {% endblock style %} {% block body %}
-
-<div class="container">
+{% extends "app/base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block style %}
+.foodtracker-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 0 0 0;
+}
+.food-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+.food-form input[type=text], .food-form input[type=number], .food-form input[type=date] {
+    min-width: 100px;
+    max-width: 180px;
+    font-size: 1em;
+    padding: 4px 8px;
+}
+.food-table {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 10px;
+    overflow: hidden;
+}
+.food-table th, .food-table td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1em;
+    padding: 6px 4px;
+}
+.food-table tfoot th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+@media (max-width: 700px) {
+    .foodtracker-container { padding: 0 2vw; }
+    .food-table { font-size: 0.97em; }
+    .food-form { flex-direction: column; align-items: stretch; }
+}
+{% endblock style %}
+{% block body %}
+<div class="foodtracker-container">
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} fade" role="alert">
+    <div class="alert alert-{{ message.tags }} fade" role="alert" style="margin-bottom:10px;">
         {{ message }}
     </div>
     {% endfor %}
-
-    <h1 class="header pb-0 mb-0">Трекер питания</h1>
-    <p class="text-muted">
-        Записывайте свои калории и просматривайте свои предыдущие блюда.
-    </p>
-    <hr />
-
-    <div class="row pt-3">
-        <div class="col-7">
-            <div class="card" style="max-height: 1000px; overflow-y: auto">
-                <div class="card-body">
-                    {% if not data %}
-                    <div class="centered-div">
-                        <i
-                            ><b
-                                >Нет данных для просмотра. Попробуйте добавить
-                                запись!</b
-                            ></i
-                        >
-                    </div>
-                    {% endif %} {% for date, foods in data.items %}
-                    <div class="date">
-                        {% if date == today_date %}
-                        <h4>Сегодня</h4>
-                        {% elif date == yesterday_date %}
-                        <h4>Вчера</h4>
-                        {% else %}
-                        <h4>{{ date }}</h4>
-                        {% endif %}
-                    </div>
-                    <table class="table table-bordered table-sm">
-                        <thead>
-                            <th style="text-align: center" scope="col">
-                                Описание
-                            </th>
-                            <th style="text-align: center" scope="col">
-                                Калории
-                            </th>
-                            <th></th>
-                        </thead>
-                        <tbody>
-                            {% for f in foods %}
-                            <tr>
-                                <td width="75%" style="text-align: center">
-                                    {{ f.description }}
-                                </td>
-                                <td style="text-align: center">
-                                    {{ f.calories }}
-                                </td>
-                                <td>
-                                    <form action="" method="post">
-                                        {% csrf_token %}
-                                        <input
-                                            type="hidden"
-                                            value="{{ f.pk }}"
-                                            name="pk"
-                                        />
-                                        <button
-                                            type="submit"
-                                            style="
-                                                border: none;
-                                                background-color: transparent;
-                                            "
-                                            value="Удалить"
-                                            class="p-0 m-0 text-danger pl-3 pr-1"
-                                        >
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                        {% for d, cal in total_calories.items %} {% if d == date%}
-                        <tfoot>
-                            <th style="text-align: center" scope="col">
-                                Всего калорий
-                            </th>
-                            <th style="text-align: center" scope="col">
-                                {{ cal }}
-                            </th>
-                            <th></th>
-                        </tfoot>
-                        {% endif %} {% endfor %}
-                    </table>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="col-5">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Добавить новое блюдо</h4>
-                    <div class="card-text">
-                        <form class="form-inline" action="" method="post">
-                            {% csrf_token %}
-                            <div class="col">
-                                <div class="row">
-                                    <table>
-                                        {{ form }}
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="add">
-                                        <button
-                                            type="submit"
-                                            name="sub_btn_1"
-                                            class="add btn btn-block btn-primary mb-2"
-                                        >
-                                            Добавить
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h4 class="card-title">Добавить новое блюдо</h4>
-                    <div class="card-text">
-                        <form class="form-inline" action="" method="post">
-                            {% csrf_token %}
-                            <div class="col">
-                                <div class="row">
-                                    <table>
-                                        {{ form_2 }}
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="add">
-                                        <button
-                                            type="submit"
-                                            name="sub_btn_2"
-                                            class="add btn btn-block btn-primary mb-2"
-                                        >
-                                            Добавить
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <h1 class="mb-1">Трекер питания</h1>
+    <p class="text-muted mb-2">Записывайте свои калории и просматривайте свои блюда по дням.</p>
+    <div class="card mb-3">
+        <div class="card-body">
+            <form class="food-form" action="" method="post">
+                {% csrf_token %}
+                <input type="text" name="description" maxlength="100" required placeholder="Описание">
+                <input type="number" name="calories" min="0" max="5000" step="1" required placeholder="Калории">
+                <input type="date" name="date" value="{{ today_date }}" required>
+                <button type="submit" name="sub_btn_1" class="btn btn-primary btn-sm">Добавить</button>
+            </form>
         </div>
     </div>
+    {% if not data %}
+    <div class="text-center text-muted my-4">
+        <b>Нет данных для просмотра. Добавьте запись!</b>
+    </div>
+    {% endif %}
+    {% for date, foods in data.items %}
+    <div class="date mt-3 mb-1">
+        {% if date == today_date %}<h5>Сегодня</h5>{% elif date == yesterday_date %}<h5>Вчера</h5>{% else %}<h5>{{ date }}</h5>{% endif %}
+    </div>
+    <table class="table table-bordered table-sm food-table mb-3">
+        <thead>
+            <tr>
+                <th>Описание</th>
+                <th>Калории</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in foods %}
+            <tr>
+                <td style="text-align: left">{{ f.description }}</td>
+                <td style="font-weight:600; color:#198754;">{{ f.calories }}</td>
+                <td>
+                    <form action="" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ f.pk }}" name="pk" />
+                        <button type="submit" style="border:none;background:transparent;" value="Удалить" title="Удалить" class="text-danger"><i class="fa fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Всего калорий</th>
+                <th colspan="2">{{ total_calories|dict_get:date }}</th>
+            </tr>
+        </tfoot>
+    </table>
+    {% endfor %}
 </div>
-
 {% endblock body %}
