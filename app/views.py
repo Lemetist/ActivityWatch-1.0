@@ -55,18 +55,20 @@ def exercises(request, active_exercises=0):
     try:
         with open(exercises_file, encoding='utf-8') as f:
             data = json.load(f)
-            # --- Фильтрация по группе мышц ---
-            if active_exercises == 100:
-                filtered = data
-            elif active_exercises == 0:
-                filtered = data
-            else:
-                filtered = [item for item in data if item.get("group_code") == active_exercises]
-
-            # --- Фильтрация по поиску и фильтрам ---
             search = request.GET.get('search', '').strip().lower()
             difficulty = request.GET.get('difficulty', '').strip().lower()
             equipment = request.GET.get('equipment', '').strip().lower()
+
+            # Если есть поисковый запрос или фильтры, всегда показывать упражнения по всем группам и показывать блок с результатами
+            if search or difficulty or equipment:
+                filtered = data
+                active_exercises = -1  # специальный маркер для шаблона: показать только результаты поиска
+            elif active_exercises == 100:
+                filtered = data
+            elif active_exercises == 0:
+                filtered = []
+            else:
+                filtered = [item for item in data if item.get("group_code") == active_exercises]
 
             def match(ex):
                 ok = True
@@ -77,7 +79,6 @@ def exercises(request, active_exercises=0):
                 if ok and equipment:
                     ok = ex.get('equipment', '').lower() == equipment
                 return ok
-
             exercise_list = [ex for ex in filtered if match(ex)]
     except (FileNotFoundError, json.JSONDecodeError) as e:
         messages.error(request, f"Ошибка загрузки данных упражнений: {e}", extra_tags='danger')
