@@ -1,57 +1,115 @@
 {% extends "app/base.html" %}
 {% block style %}
-    {# insert css stylings specific to page here #}
-    .boxes{
-        width: 95%; 
-        height: 700px; 
-        overflow-x: hidden; 
-        overflow-y: auto; 
+    .weightlog-container {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 24px 0 0 0;
+    }
+    .weight-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+    .weight-form input[type=number] {
+        width: 120px;
+        min-width: 80px;
+    }
+    .weight-table {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-top: 10px;
+        overflow: hidden;
+    }
+    .weight-table th, .weight-table td {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 1em;
+    }
+    .weight-graph {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto 18px auto;
+        display: block;
+    }
+    @media (max-width: 600px) {
+        .weightlog-container { padding: 0 2vw; }
+        .weight-table { font-size: 0.97em; }
     }
 {% endblock style %}
 {% block body %}
-
-        <div class="row">
-            <div class="col-10 offset-1">
-                {% if savedWeight %}
-                    <div class="alert alert-success fade">Вес записан. Отличная работа!</div>
-                {% endif %}
-                <h1 class="mb-0">Журнал веса</h1>
-                <p class="text-muted">Отслеживайте свой вес с течением времени, чтобы видеть свой прогресс.</p>
-                <hr>
-                <br>
-                <form class="form-inline pb-3" action="" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-
-                    <button type="submit" class="btn btn-primary btn-sm ml-2">Записать</button>
-                </form>
-                <div class="card" style="height: 500px; overflow-y: auto;">
-                    <div class="card-body">
-                        <div class="card-detail">
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Дата</th>
-                                    <th scope="col">Вес</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    {% if weight_logs|length < 1 %}
-                                        <tr><td class="text-center" colspan="2">Чего вы ждете? Запишите свой вес выше!</td></tr>
-                                    {% else %}
-                                        {% for weight in weight_logs %}
-                                            <tr>
-                                                <th scope="row">{{weight.timestamp}}</th>
-                                                <td>{{weight.weight}} кг</td>
-                                            </tr>
-                                        {% endfor %}
-                                    {% endif %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="weightlog-container">
+    {% if savedWeight %}
+        <div class="alert alert-success fade">Вес записан!</div>
+    {% endif %}
+    <h1 class="mb-1">Журнал веса</h1>
+    <p class="text-muted mb-2">Следите за динамикой веса — просто и удобно.</p>
+    <form class="weight-form" action="" method="post">
+        {% csrf_token %}
+        <input type="number" name="weight" step="0.1" min="20" max="400" required placeholder="Ваш вес (кг)">
+        <button type="submit" class="btn btn-primary btn-sm">Записать</button>
+    </form>
+    {% if weight_logs|length > 1 %}
+        <canvas id="weightChart" class="weight-graph"></canvas>
+    {% endif %}
+    <div class="weight-table card mt-3">
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th>Дата</th>
+                    <th>Вес</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% if weight_logs|length < 1 %}
+                        <tr><td class="text-center" colspan="2">Нет записей. Введите вес выше!</td></tr>
+                    {% else %}
+                        {% for weight in weight_logs %}
+                            <tr>
+                                <td>{{weight.timestamp|date:"d.m.Y"}}</td>
+                                <td>{{weight.weight}} кг</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
-
+    </div>
+</div>
+{% if weight_logs|length > 1 %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('weightChart').getContext('2d');
+    const labels = [{% for w in weight_logs %}'{{ w.timestamp|date:"d.m.Y" }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+    const data = [{% for w in weight_logs %}{{ w.weight }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Вес (кг)',
+                data: data,
+                borderColor: '#198754',
+                backgroundColor: 'rgba(25,135,84,0.08)',
+                tension: 0.2,
+                pointRadius: 4,
+                pointBackgroundColor: '#198754',
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: { beginAtZero: false }
+            }
+        }
+    });
+</script>
+{% endif %}
 {% endblock body %}
