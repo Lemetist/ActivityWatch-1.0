@@ -4,6 +4,16 @@
 {% block stylesheet%}
 <link rel="stylesheet" type="text/css" href="{% static 'exlog_app/home.css' %}">
 <style>
+.card {
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border: none;
+    background: #f8fafd;
+    transition: box-shadow 0.2s;
+}
+.card:hover {
+    box-shadow: 0 6px 24px rgba(0,123,255,0.10);
+}
 .card-title {
     display: flex;
     justify-content: space-between;
@@ -11,95 +21,122 @@
     font-size: 1.15em;
     font-weight: 600;
     margin-bottom: 8px;
+    gap: 1rem;
 }
 .card-title .date {
     font-size: 1.08em;
     color: #198754;
     font-weight: 500;
     margin-right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
 }
 .card-title .actions {
     display: flex;
-    gap: 6px;
+    gap: 8px;
 }
 .card-title .actions a {
     min-width: 32px;
     text-align: center;
+    border-radius: 8px;
 }
 .card-summary {
     font-size: 0.98em;
     color: #888;
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 1em;
 }
 .table-sm th, .table-sm td {
     padding: 0.35rem 0.5rem;
     font-size: 0.97em;
 }
+.table-sm th {
+    background: #e9ecef;
+    color: #333;
+    font-weight: 600;
+}
 @media (max-width: 700px) {
     .card-title { flex-direction: column; align-items: flex-start; gap: 4px; }
+}
+.add-log-btn {
+    display: block;
+    margin: 0 auto 2rem auto;
+    font-size: 1.1em;
+    border-radius: 10px;
+    padding: 0.7em 2em;
 }
 </style>
 {% endblock stylesheet%}
 
 {% block content%}
 <div>
-{% for exlog in exercise_logs %}
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="card-title">
-            <span class="date"><i class="fa fa-calendar"></i> {{ exlog.date | date:"d.m.Y" }}</span>
-            <div class="actions">
-                <a class="btn btn-outline-primary btn-sm" title="Подробности" href="{% url 'exlog-detail' exlog.id %}"><i class="fa fa-list"></i></a>
-                <a class="btn btn-outline-success btn-sm" title="Добавить упражнение" href="{% url 'exlog-add-exercise' exlog.id %}"><i class="fa fa-plus"></i></a>
-                <a class="btn btn-outline-secondary btn-sm" title="Редактировать тренировку" href="{% url 'exlog-update' exlog.id %}"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-outline-danger btn-sm" title="Удалить тренировку" href="{% url 'exlog-delete' exlog.id %}"><i class="fa fa-trash"></i></a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0" style="font-weight: 700; letter-spacing: 0.5px;">Ваши тренировки</h1>
+        <a href="/exlog/log/new/" class="btn btn-success add-log-btn"><i class="fa fa-plus"></i> Новая тренировка</a>
+    </div>
+    {% if exercise_logs|length == 0 %}
+        <div class="alert alert-info text-center mt-4 mb-4" style="font-size:1.1em;">
+            У вас пока нет ни одной тренировки.<br>Нажмите <b>«Новая тренировка»</b>, чтобы начать!
+        </div>
+    {% endif %}
+    {% for exlog in exercise_logs %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="card-title">
+                <span class="date"><i class="fa fa-calendar"></i> {{ exlog.date | date:"d.m.Y" }}</span>
+                <div class="actions">
+                    <a class="btn btn-outline-primary btn-sm" title="Подробности" href="{% url 'exlog-detail' exlog.id %}"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-outline-success btn-sm" title="Добавить упражнение" href="{% url 'exlog-add-exercise' exlog.id %}"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-outline-secondary btn-sm" title="Редактировать тренировку" href="{% url 'exlog-update' exlog.id %}"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-outline-danger btn-sm" title="Удалить тренировку" href="{% url 'exlog-delete' exlog.id %}"><i class="fa fa-trash"></i></a>
+                </div>
             </div>
-        </div>
-        <div class="card-summary">
-            {% with 0 as ex_count %}
-                {% for exercise in exercises %}
-                    {% if exercise.exercise_log == exlog %}
-                        {% widthratio 1 1 1 as dummy %}{% with ex_count|add:1 as ex_count %}{% endwith %}
-                    {% endif %}
-                {% endfor %}
-                <span><i class="fa fa-dumbbell"></i> Упражнений: {{ ex_count }}</span>
-            {% endwith %}
-        </div>
-        <div class="card-text">
-            <table class="table table-sm table-bordered">
-                <thead>
-                    <tr>
-                        <th>Упражнение</th>
-                        <th>Вес</th>
-                        <th>Подходы</th>
-                        <th>Повторения</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% comment %} Определяем максимальный вес для выделения строк {% endcomment %}
-                    {% with max_weight=0 %}
-                    {% for exercise in exercises %}
-                        {% if exercise.exercise_log == exlog and exercise.exercise_weight > max_weight %}
-                            {% with exercise.exercise_weight as max_weight %}{% endwith %}
-                        {% endif %}
-                    {% endfor %}
-                    {% endwith %}
-                    {% comment %} Выводим упражнения {% endcomment %}
+            <div class="card-summary">
+                {% with 0 as ex_count %}
                     {% for exercise in exercises %}
                         {% if exercise.exercise_log == exlog %}
-                        <tr {% if exercise.exercise_weight == max_weight and exercise.exercise_weight > 0 %}style="background:#e6ffe6;font-weight:600;" title="Максимальный вес за тренировку"{% endif %}>
-                            <td>{{ exercise.exercise_name }}</td>
-                            <td>{% if exercise.exercise_weight != 0 %}{{ exercise.exercise_weight }} кг{% else %}--{% endif %}</td>
-                            <td>{% if exercise.num_sets != 0 %}{{ exercise.num_sets }}{% else %}--{% endif %}</td>
-                            <td>{% if exercise.num_reps != 0 %}{{ exercise.num_reps }}{% else %}--{% endif %}</td>
-                        </tr>
+                            {% widthratio 1 1 1 as dummy %}{% with ex_count|add:1 as ex_count %}{% endwith %}
                         {% endif %}
                     {% endfor %}
-                </tbody>
-            </table>
+                    <span><i class="fa fa-dumbbell"></i> Упражнений: {{ ex_count }}</span>
+                {% endwith %}
+            </div>
+            <div class="card-text">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Упражнение</th>
+                            <th>Вес</th>
+                            <th>Подходы</th>
+                            <th>Повторения</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% with max_weight=0 %}
+                        {% for exercise in exercises %}
+                            {% if exercise.exercise_log == exlog and exercise.exercise_weight > max_weight %}
+                                {% with exercise.exercise_weight as max_weight %}{% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                        {% for exercise in exercises %}
+                            {% if exercise.exercise_log == exlog %}
+                            <tr {% if exercise.exercise_weight == max_weight and exercise.exercise_weight > 0 %}style="background:#e6ffe6;font-weight:600;" title="Максимальный вес за тренировку"{% endif %}>
+                                <td>{{ exercise.exercise_name }}</td>
+                                <td>{% if exercise.exercise_weight != 0 %}{{ exercise.exercise_weight }} кг{% else %}--{% endif %}</td>
+                                <td>{% if exercise.num_sets != 0 %}{{ exercise.num_sets }}{% else %}--{% endif %}</td>
+                                <td>{% if exercise.num_reps != 0 %}{{ exercise.num_reps }}{% else %}--{% endif %}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
 </div>
 {% endblock content %}

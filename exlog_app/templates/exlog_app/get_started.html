@@ -1,27 +1,142 @@
 {%  extends "app/base.html" %}
-
 {% load static %}
 
 {% block body %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'exlog_app/base.css' %}">
-{% block stylesheets %}{% endblock stylesheets %}
-
+<style>
+.get-started-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem 1.5rem 1rem;
+    background: #f8fafd;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    margin-bottom: 2rem;
+}
+.get-started-hero img {
+    max-width: 220px;
+    margin-bottom: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+.get-started-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.get-started-subtitle {
+    font-size: 1.15rem;
+    color: #555;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+.get-started-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 2rem;
+    margin: 2rem 0 1.5rem 0;
+}
+.get-started-benefit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 180px;
+}
+.get-started-benefit i {
+    font-size: 2.2rem;
+    color: #007bff;
+    margin-bottom: 0.5rem;
+}
+.get-started-benefit span {
+    font-size: 1.05rem;
+    color: #333;
+    text-align: center;
+}
+.get-started-steps {
+    margin: 2.5rem 0 1.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 2rem;
+}
+.get-started-step {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    padding: 1.2rem 1.5rem;
+    max-width: 220px;
+    text-align: center;
+}
+.get-started-step i {
+    font-size: 2rem;
+    color: #198754;
+    margin-bottom: 0.5rem;
+}
+.get-started-step-title {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+.get-started-btn {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    padding: 0.8em 2.5em;
+    border-radius: 12px;
+}
+@media (max-width: 900px) {
+    .get-started-benefits, .get-started-steps { flex-direction: column; gap: 1.5rem; }
+    .get-started-hero { padding: 1.2rem 0.5rem; }
+}
+</style>
 <main role="main" class="container">
   <div class="row justify-content-md-center">
-
-    <!-- Sidebar -->
-    <div class="col-md-8">
-      <div class="content-section">
-        <h2 class="mt-1 text-center"><b>Добро пожаловать в Журнал Упражнений FitTrack!</b></h2>
-        <h5 class="mt-3 text-center">Нажмите кнопку ниже, чтобы добавить свой первый Журнал Упражнений</h5>
-          <p class="text-center text-muted">Сначала попробуйте создать свою тренировку! Просто перейдите на вкладку упражнений и нажмите «Добавить в сегодняшнюю тренировку», затем вернитесь сюда, чтобы записать свои подходы.</p>
-
-          <!-- ListView for all workout logs under the current logged in user-->
-        <div class="col text-center">
-            <a href="/exlog/log/new/">
-                <Button class="mt-3 btn btn-success btn-lg ">Начните отслеживать свои тренировки!</Button>
-            </a>
+    <div class="col-md-10">
+      <div class="get-started-hero">
+        <img src="{% static 'getStarted2.jpg' %}" alt="Добро пожаловать">
+        <div class="get-started-title">Добро пожаловать{% if user.is_authenticated %}, {{ user.username }}{% endif %}!</div>
+        <div class="get-started-subtitle">Начните вести свой журнал упражнений и отслеживать прогресс легко и удобно.</div>
+        <div class="get-started-benefits">
+          <div class="get-started-benefit">
+            <i class="fa fa-line-chart"></i>
+            <span>Видьте свой прогресс<br>наглядно</span>
+          </div>
+          <div class="get-started-benefit">
+            <i class="fa fa-bolt"></i>
+            <span>Мотивация<br>и регулярность</span>
+          </div>
+          <div class="get-started-benefit">
+            <i class="fa fa-bar-chart"></i>
+            <span>Статистика<br>по всем тренировкам</span>
+          </div>
+          <div class="get-started-benefit">
+            <i class="fa fa-heartbeat"></i>
+            <span>Здоровый образ жизни<br>и контроль привычек</span>
+          </div>
+        </div>
+        <div class="get-started-steps">
+          <div class="get-started-step">
+            <i class="fa fa-plus-circle"></i>
+            <div class="get-started-step-title">1. Создайте тренировку</div>
+            <div>Нажмите «Начните отслеживать свои тренировки!»</div>
+          </div>
+          <div class="get-started-step">
+            <i class="fa fa-list"></i>
+            <div class="get-started-step-title">2. Добавьте упражнения</div>
+            <div>Заполните подходы, повторения и вес для каждого упражнения.</div>
+          </div>
+          <div class="get-started-step">
+            <i class="fa fa-bar-chart"></i>
+            <div class="get-started-step-title">3. Следите за прогрессом</div>
+            <div>Анализируйте статистику и улучшайте результаты!</div>
+          </div>
+        </div>
+        <a href="/exlog/log/new/" class="btn btn-success btn-lg get-started-btn"><i class="fa fa-play"></i> Начните отслеживать свои тренировки!</a>
+        <div class="mt-4 text-center">
+          <span class="text-muted">Уже есть тренировки?</span>
+          <a href="/exlog/" class="btn btn-outline-primary btn-sm ml-2">Перейти к журналу</a>
         </div>
       </div>
     </div>
