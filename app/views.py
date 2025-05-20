@@ -22,6 +22,7 @@ import json, os, matplotlib
 import numpy as np
 from django.contrib.auth.decorators import login_required
 import csv
+from django.templatetags.static import static
 
 def button_class(active_exercise, button):
     if active_exercise == button:
@@ -47,7 +48,12 @@ def exercises(request, active_exercises=0):
 
     button_codes = [102, 106, 103, 110, 111, 112, 113, 114, 117, 118, 120, 121, 119, 101, 104]
     classes = {f'button{i+1}_class': button_class(active_exercises, code) for i, code in enumerate(button_codes)}
-    body_diagram = f"/static/bodyDiagram/bodyDiagram{active_exercises}.png"
+
+    # Путь к диаграмме тела
+    if active_exercises in (None, 0, -1):
+        body_diagram = static('bodyDiagram/bodyDiagram0.png')
+    else:
+        body_diagram = static(f'bodyDiagram/bodyDiagram{active_exercises}.png')
 
     # Загрузка данных упражнений
     exercise_list = []
