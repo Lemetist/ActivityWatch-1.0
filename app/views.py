@@ -41,22 +41,12 @@ def home(request):
 def exercises(request, active_exercises=0):
     """
     Отображает список упражнений и соответствующую диаграмму тела.
-
-    Аргументы:
-        request: HTTP-запрос.
-        active_exercises (int): Код активной группы упражнений.
-
-    Возвращает:
-        HTTP-ответ с шаблоном страницы упражнений.
     """
     if not request.user.is_authenticated:
         return redirect('app:login')
 
-    # Генерация классов для кнопок
     button_codes = [102, 106, 103, 110, 111, 112, 113, 114, 117, 118, 120, 121, 119, 101, 104]
     classes = {f'button{i+1}_class': button_class(active_exercises, code) for i, code in enumerate(button_codes)}
-
-    # Путь к диаграмме тела
     body_diagram = f"/static/bodyDiagram/bodyDiagram{active_exercises}.png"
 
     # Загрузка данных упражнений
@@ -65,12 +55,34 @@ def exercises(request, active_exercises=0):
     try:
         with open(exercises_file, encoding='utf-8') as f:
             data = json.load(f)
+            # --- Фильтрация по группе мышц ---
             if active_exercises == 100:
-                exercise_list = data
+                filtered = data
+            elif active_exercises == 0:
+                filtered = data
             else:
-                exercise_list = [item for item in data if item.get("group_code") == active_exercises]
+                filtered = [item for item in data if item.get("group_code") == active_exercises]
+
+            # --- Фильтрация по поиску и фильтрам ---
+            search = request.GET.get('search', '').strip().lower()
+            difficulty = request.GET.get('difficulty', '').strip().lower()
+            equipment = request.GET.get('equipment', '').strip().lower()
+
+            def match(ex):
+                ok = True
+                if search:
+                    ok = search in ex.get('name', '').lower() or search in ex.get('description', '').lower()
+                if ok and difficulty:
+                    ok = ex.get('difficulty', '').lower() == difficulty
+                if ok and equipment:
+                    ok = ex.get('equipment', '').lower() == equipment
+                return ok
+
+            exercise_list = [ex for ex in filtered if match(ex)]
     except (FileNotFoundError, json.JSONDecodeError) as e:
         messages.error(request, f"Ошибка загрузки данных упражнений: {e}", extra_tags='danger')
+        exercise_list = []
+        data = []
 
     # Формируем список уникальных групп мышц для фильтрации
     all_groups = set()
@@ -78,7 +90,6 @@ def exercises(request, active_exercises=0):
     for item in data:
         all_groups.add((item.get("group"), item.get("group_code")))
         all_group_codes[item.get("group")] = item.get("group_code")
-    # Сортируем группы по коду (или по алфавиту, если нужно)
     muscle_groups = sorted(list(all_groups), key=lambda x: x[1])
     context = {
         'exercises': exercise_list,
@@ -88,7 +99,6 @@ def exercises(request, active_exercises=0):
         'body_diagram': body_diagram,
         'muscle_groups': muscle_groups,
     }
-
     return render(request, 'app/exercises.html', context)
 
 def foodtracker(request):
