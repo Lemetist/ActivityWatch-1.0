@@ -327,7 +327,11 @@ def results(request):
             'average': average,
             'ex_names': np.unique(np.array(ex_names)),
             'str_change': str_change,
-            'avg_cals': avgCals
+            'avg_cals': avgCals,
+            'min_weight': min([int(i.weight) for i in WeightLog.objects.filter(user=request.user)]) if WeightLog.objects.filter(user=request.user).exists() else '--',
+            'max_weight': max([int(i.weight) for i in WeightLog.objects.filter(user=request.user)]) if WeightLog.objects.filter(user=request.user).exists() else '--',
+            'min_cals': min([int(j*counts[i]) for i,j in enumerate(cals)]) if len(cals) > 0 else '--',
+            'max_cals': max([int(j*counts[i]) for i,j in enumerate(cals)]) if len(cals) > 0 else '--',
         }
         return render(request, 'app/results.html', context)
 

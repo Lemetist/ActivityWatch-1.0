@@ -1,6 +1,66 @@
 {% extends "app/base.html" %}
 {% block style %}
-    {# insert css stylings specific to page here #}
+    .results-graph-img {
+        width: 100%;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(25,135,84,0.10), 0 1.5px 8px rgba(0,0,0,0.06);
+        background: #f8f9fa;
+        padding: 12px 8px 8px 8px;
+        margin-bottom: 8px;
+        transition: box-shadow 0.2s;
+    }
+    .results-graph-img:hover {
+        box-shadow: 0 8px 32px rgba(25,135,84,0.18), 0 2px 12px rgba(0,0,0,0.10);
+    }
+    .card-title.mb-3, .results-metric-title {
+        font-weight: 600;
+        color: #198754;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+    .results-metric {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 0 10px 0;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(25,135,84,0.07);
+        margin-bottom: 18px;
+        min-height: 120px;
+    }
+    .results-metric .icon {
+        font-size: 2.1em;
+        color: #198754;
+        margin-bottom: 4px;
+    }
+    .results-metric-value {
+        font-size: 2em;
+        font-weight: 700;
+        color: #222;
+    }
+    .results-metric-label {
+        font-size: 1em;
+        color: #888;
+    }
+    .results-metric .desc {
+        font-size: 0.95em;
+        color: #666;
+        margin-top: 2px;
+    }
+    .results-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+    @media (max-width: 700px) {
+        .results-graph-img { border-radius: 10px; padding: 6px 2px; }
+        .results-metric { min-height: 90px; }
+        .results-form { flex-direction: column; align-items: stretch; }
+    }
 {% endblock style %}
 {% block body %}
     <h1>Результаты</h1>
@@ -14,107 +74,98 @@
             <Button class="btn btn-outline-success">Экспорт JSON</Button>
         </a>
     </div>
-    <div class="row">
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        {{ change }} <span class="small">кг</span>
-                    </h1>
-                    <p class="card-text">
-                        <i class="fa fa-line-chart"></i> Изменение веса
-                        <br>
-                        <span>&shy;</span>
-                    </p>
-                </div>
+    <div class="row mb-4">
+        <div class="col-6 col-md-3">
+            <div class="results-metric">
+                <span class="icon"><i class="fa fa-line-chart"></i></span>
+                <span class="results-metric-value">{{ change }} <span class="small">кг</span></span>
+                <span class="results-metric-label">Изменение веса</span>
+                <span class="desc">Разница между первым и последним взвешиванием</span>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        {{ str_change }} <span class="small">%</span>
-                    </h1>
-                    <p class="card-text">
-                        <i class="fa fa-bolt"></i>  Изменение силы {% if not request.GET.ex %} <br><span class="small text-danger">Упражнение не выбрано</span> {% else %} <br><span>&shy;</span>{% endif %}
-                    </p>
-                </div>
+        <div class="col-6 col-md-3">
+            <div class="results-metric">
+                <span class="icon"><i class="fa fa-bolt"></i></span>
+                <span class="results-metric-value">{{ str_change }} <span class="small">%</span></span>
+                <span class="results-metric-label">Изменение силы</span>
+                <span class="desc">{% if not request.GET.ex %}<span class="text-danger">Упражнение не выбрано</span>{% else %}Относительно первого значения{% endif %}</span>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">
-                       {{ avg_cals }} <span class="small">ккал</span>
-                    </h1>
-                    <p class="card-text">
-                        <i class="fa fa-cutlery"></i>  Среднее дневное потребление
-                        <br>
-                        <span>&shy;</span>
-                    </p>
-                </div>
+        <div class="col-6 col-md-3">
+            <div class="results-metric">
+                <span class="icon"><i class="fa fa-cutlery"></i></span>
+                <span class="results-metric-value">{{ avg_cals }} <span class="small">ккал</span></span>
+                <span class="results-metric-label">Среднее дневное потребление</span>
+                <span class="desc">По всем дням с записями</span>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">
-                        {{ average }} <span class="small">кг</span>
-                    </h1>
-                    <p class="card-text">
-                        <i class="fa fa-balance-scale"></i>  Средний вес
-                        <br>
-                        <span>&shy;</span>
-                    </p>
-                </div>
+        <div class="col-6 col-md-3">
+            <div class="results-metric">
+                <span class="icon"><i class="fa fa-balance-scale"></i></span>
+                <span class="results-metric-value">{{ average }} <span class="small">кг</span></span>
+                <span class="results-metric-label">Средний вес</span>
+                <span class="desc">Среднее по всем взвешиваниям</span>
             </div>
         </div>
     </div>
-    <div class="row mt-5">
-        <div class="col-6">
-            <div class="card">
+    <div class="row mt-3 mb-4">
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-100">
                 <div class="card-body">
-                    <form action="/results/" class="form-inline" style="float:right">
+                    <form action="/results/" class="results-form">
                         <select name="ex" id="ex" class="form-control">
                             <option selected disabled>Выберите упражнение</option>
                             {% for name in ex_names %}
                                 <option value="{{ name }}" {% if name == request.GET.ex %} selected {% endif %}>{{ name }}</option>
                             {% endfor %}
                         </select>
-                        <Button class="btn btn-outline-secondary form-control" type="submit">Отправить</Button>
+                        <Button class="btn btn-outline-secondary" type="submit">Показать</Button>
                     </form>
-                    <h4 class="card-title">
-                        Увеличение силы ({{ request.GET.ex }})
+                    <h4 class="results-metric-title">
+                        <i class="fa fa-dumbbell"></i> Увеличение силы{% if request.GET.ex %} ({{ request.GET.ex }}){% endif %}
                     </h4>
-                    <p class="card-text">
-                        <img style="padding-top:2%"src="data:image/png;base64,{{ img3 }}" width="100%">
-                    </p>
+                    <img style="padding-top:2%" src="data:image/png;base64,{{ img3 }}" class="results-graph-img" alt="График силы">
+                    <div class="text-muted small mt-2" style="text-align:center;">
+                        <i class="fa fa-info-circle"></i> Отслеживайте прогресс по выбранному упражнению
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="card">
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h4 class="card-title">
-                        Ежедневное потребление калорий
+                    <h4 class="card-title mb-3">
+                        <i class="fa fa-fire"></i> Ежедневное потребление калорий
                     </h4>
-                    <p class="card-text">
-                        <img src="data:image/png;base64,{{ img2 }}" width="100%">
-                    </p>
+                    <img src="data:image/png;base64,{{ img2 }}" class="results-graph-img" alt="График калорий">
+                    <div class="text-muted small mt-2" style="text-align:center;">
+                        <i class="fa fa-info-circle"></i> Анализируйте калорийность для достижения целей питания
+                    </div>
+                    <div class="row mt-2 text-center">
+                        <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_cals }} ккал</div>
+                        <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_cals }} ккал</div>
+                        <div class="col-4"><span class="fw-bold">Среднее:</span> {{ avg_cals }} ккал</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-5">
-                <div class="col-6">
-            <div class="card">
+    <div class="row mt-2 mb-5">
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h4 class="card-title">
-                        История веса
+                    <h4 class="card-title mb-3">
+                        <i class="fa fa-weight"></i> История веса
                     </h4>
-                    <p class="card-text">
-                        <img src="data:image/png;base64,{{ img1 }}" width="100%">
-                    </p>
+                    <img src="data:image/png;base64,{{ img1 }}" class="results-graph-img" alt="График веса">
+                    <div class="text-muted small mt-2" style="text-align:center;">
+                        <i class="fa fa-info-circle"></i> Следите за динамикой веса для лучшего контроля прогресса
+                    </div>
+                    <div class="row mt-2 text-center">
+                        <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_weight }} кг</div>
+                        <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_weight }} кг</div>
+                        <div class="col-4"><span class="fw-bold">Среднее:</span> {{ average }} кг</div>
+                    </div>
                 </div>
             </div>
         </div>
