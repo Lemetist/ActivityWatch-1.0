@@ -72,13 +72,21 @@ def exercises(request, active_exercises=0):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         messages.error(request, f"Ошибка загрузки данных упражнений: {e}", extra_tags='danger')
 
-    # Контекст для шаблона
+    # Формируем список уникальных групп мышц для фильтрации
+    all_groups = set()
+    all_group_codes = dict()
+    for item in data:
+        all_groups.add((item.get("group"), item.get("group_code")))
+        all_group_codes[item.get("group")] = item.get("group_code")
+    # Сортируем группы по коду (или по алфавиту, если нужно)
+    muscle_groups = sorted(list(all_groups), key=lambda x: x[1])
     context = {
         'exercises': exercise_list,
-        'title': 'Exercises',
+        'title': 'Каталог упражнений',
         'active_exercise': active_exercises,
         'classes': classes,
         'body_diagram': body_diagram,
+        'muscle_groups': muscle_groups,
     }
 
     return render(request, 'app/exercises.html', context)
@@ -87,7 +95,7 @@ def foodtracker(request):
     if not request.user.is_authenticated:
         return redirect('app:login')
     else:
-        # Handling form submissions
+        # Обработка отправки форм
         if request.method == 'POST' and 'sub_btn_1' in request.POST:
             form_sub = FoodForm(request.POST)
             if form_sub.is_valid():
@@ -96,21 +104,21 @@ def foodtracker(request):
                 if Food_Entry.objects.filter(user=request.user, description=form_sub.cleaned_data['description']).exists():
                     old_entry = Food_Entry.objects.filter(user=request.user, description=form_sub.cleaned_data['description']).first()
                     if old_entry.calories != form_sub.cleaned_data['calories']:
-                        messages.error(request, "ERROR: Reused descriptions must match calories!", extra_tags='danger')
+                        messages.error(request, "Ошибка: для одинаковых описаний калорийность должна совпадать!", extra_tags='danger')
                         val = False
                     else:
                         f = Food_Entry(date=form_sub.cleaned_data['date'], description=form_sub.cleaned_data['description'], calories=form_sub.cleaned_data['calories'], user=request.user)
                         f.save()
                 # Ensuring calories are 0 or greater
                 if form_sub.cleaned_data['calories'] < 0:
-                    messages.error(request, "ERROR: Calories must be greater or equal to 0!", extra_tags='danger')
+                    messages.error(request, "Ошибка: калорий должно быть не меньше 0!", extra_tags='danger')
                     val = False
                 if val == True:
                     f = Food_Entry(date=form_sub.cleaned_data['date'], description=form_sub.cleaned_data['description'], calories=form_sub.cleaned_data['calories'], user=request.user)
                     f.save()
-                    messages.success(request, "Successfully added " + form_sub.cleaned_data['description'] + ".", extra_tags='success')
+                    messages.success(request, "Успешно добавлено: " + form_sub.cleaned_data['description'] + ".", extra_tags='success')
             else:
-                messages.error(request, "ERROR: Description may only contain alphanumerics, end stops, commas, and parentheses!", extra_tags='danger')
+                messages.error(request, "Ошибка: описание может содержать только буквы, цифры, точки, запятые и скобки!", extra_tags='danger')
         elif request.method == 'POST' and 'sub_btn_2' in request.POST:
             form_sub = FoodFormTheSecond(request.POST, request=request)
             if form_sub.is_valid():
@@ -118,16 +126,16 @@ def foodtracker(request):
                 f.pk = None
                 f.date = form_sub.cleaned_data["date"]
                 f.save()
-                messages.success(request, "Successfully added " + form_sub.cleaned_data['description'] + ".", extra_tags='success')
+                messages.success(request, "Успешно добавлено: " + form_sub.cleaned_data['description'] + ".", extra_tags='success')
         elif request.method == 'POST':
             f = Food_Entry.objects.filter(user=request.user, pk=request.POST['pk']).first()
             Food_Entry.objects.filter(user=request.user, pk=request.POST['pk']).delete()
-            messages.success(request, "Successfully deleted " + f.description + ".", extra_tags='success')
-        # Creating forms
+            messages.success(request, "Успешно удалено: " + f.description + ".", extra_tags='success')
+        # Создание форм
         form = FoodForm()
         form_2 = FoodFormTheSecond(request=request)
 
-        # Getting data
+        # Получение данных
         entries = Food_Entry.objects.filter(user=request.user).order_by('-date')
         data = {}
         for e in entries:
@@ -142,9 +150,9 @@ def foodtracker(request):
                 sum = sum + foods.calories
             total_calories[date] = sum
 
-        # Passing info
+        # Передача информации
         context = {
-            'title': 'Food Tracker',
+            'title': 'Трекер питания',
             'data': data,
             'form': form,
             'form_2': form_2,
@@ -161,7 +169,7 @@ def weightlog(request):
     else:
         form = WeightLogForm()
         context = {
-            'title': 'Weight Log',
+            'title': 'Весовой журнал',
             'weight_logs': WeightLog.objects.filter(user=request.user).order_by('-timestamp'),
             'form': form,
             'savedWeight': False
@@ -178,7 +186,7 @@ def weightlog(request):
 
 def login_view(request):
     context = {
-        'title': 'Login'
+        'title': 'Вход'
     }
     return render(request, 'app/login.html', context)
 
@@ -187,12 +195,12 @@ def results(request):
     if not request.user.is_authenticated:
         return redirect('app:login')
     else:
-        # Weight Plot
+        # График веса
         matplotlib.use('Agg')
         plt.close()
         plt.plot([i.timestamp.date().__format__('%-0m-%-d') for i in WeightLog.objects.filter(user=request.user).order_by('timestamp')], [int(i.weight) for i in WeightLog.objects.filter(user=request.user).order_by('timestamp')], marker='o', markersize=5, color='blue')
-        plt.xlabel('Date')
-        plt.ylabel('Weight (lbs)')
+        plt.xlabel('Дата')
+        plt.ylabel('Вес (кг)')
 
         for i in range(0, len(WeightLog.objects.filter(user=request.user))):
             plt.annotate(int(WeightLog.objects.filter(user=request.user)[i].weight), (WeightLog.objects.filter(user=request.user)[i].timestamp.date().__format__('%-0m-%-d'), int(WeightLog.objects.filter(user=request.user)[i].weight)+2), ha="center")
@@ -229,12 +237,12 @@ def results(request):
         if len(dates) > 0:
             avgCals = avgCals / len(dates)
 
-        # Calorie Plot
+        # График калорий
         plt.plot([i for i in dates],
                  [int(j * counts[i]) for i,j in enumerate(cals)],
                  marker='o', markersize=5, color='blue')
-        plt.xlabel('Date')
-        plt.ylabel('Calories Consumed')
+        plt.xlabel('Дата')
+        plt.ylabel('Потреблено калорий')
         fig2 = plt.gcf()
 
         for i in range(0, len(dates)):
@@ -266,11 +274,11 @@ def results(request):
                     # Epley formula for 1RM calculation
                     rep_max.append(int(j.exercise_weight * (1 + j.num_reps / 30)))
 
-        # Strength Plot
+        # График силы
         plt.plot([i.__format__('%-0m-%-d') for i in dates], [i for i in rep_max], marker='o', markersize=5, color='blue')
-        plt.title(request.GET.get('ex', 'Select an exercise'))
-        plt.xlabel('Date')
-        plt.ylabel(request.GET.get('ex', '') + ' (1 Repetition Maximum)')
+        plt.title(request.GET.get('ex', 'Выберите упражнение'))
+        plt.xlabel('Дата')
+        plt.ylabel(request.GET.get('ex', '') + ' (1ПМ)')
 
         if len(rep_max) > 0:
             plt.ylim(min(rep_max) - 10, max(rep_max) + 10)
@@ -307,9 +315,8 @@ def results(request):
         else:
             str_change = '--'
 
-        print(cals)
         context = {
-            'title': 'Results',
+            'title': 'Результаты',
             'img1': img1,
             'img2': img2,
             'img3': img3,
@@ -335,7 +342,7 @@ def signup(request):
             form = forms.UserRegistrationForm()
 
         context = {
-            'title': 'Sign Up',
+            'title': 'Регистрация',
             'form': form
         }
         return render(request, 'app/signup.html', context)
