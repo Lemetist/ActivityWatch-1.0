@@ -6,6 +6,22 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'exlog_app/base.css' %}">
 {% block stylesheets %}{% endblock stylesheets %}
+<style>
+  @media (max-width: 991px) {
+    .exlog-lists, .col-md-8.exlog-lists { width: 100%; max-width: 100%; }
+    .col-md-4 { width: 100%; max-width: 100%; margin-top: 18px; }
+    .card.content-section { margin-bottom: 18px; }
+  }
+  @media (max-width: 700px) {
+    .header { font-size: 1.3em; }
+    .exlog-lists, .col-md-8.exlog-lists { padding: 0; }
+    .col-md-4 { padding: 0; }
+    .card.content-section { padding: 10px 4px; }
+    .container { padding: 0 2vw; }
+  }
+  .card.content-section .btn { width: 100%; margin-bottom: 8px; }
+  .alert { font-size: 0.97em; }
+</style>
 
 <main role="main" class="container">
   <h1 class="header pb-0 mb-0">Журнал Упражнений</h1>
