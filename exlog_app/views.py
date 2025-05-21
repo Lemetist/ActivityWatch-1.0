@@ -240,36 +240,17 @@ class ExerciseCreateView(LoginRequiredMixin, CreateView):
 class ExerciseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     Представление для обновления существующего упражнения.
-
-    Атрибуты:
-        model: Модель, связанная с представлением.
-        fields: Поля, отображаемые в форме.
     """
     model = Exercise
-    fields = ['num_sets', 'num_reps', 'exercise_weight']
+    fields = ['exercise_name', 'num_sets', 'num_reps', 'exercise_weight']
 
     def form_valid(self, form):
-        """
-        Устанавливает текущего пользователя как владельца упражнения.
-
-        Возвращает:
-            Результат вызова родительского метода.
-        """
-        form.instance.user = self.request.user
         messages.success(self.request, "Упражнение успешно обновлено!", extra_tags='success')
         return super().form_valid(form)
 
     def test_func(self):
-        """
-        Проверяет, является ли текущий пользователь владельцем журнала упражнения.
-
-        Возвращает:
-            True, если пользователь является владельцем, иначе False.
-        """
-        exlog = self.get_object()
-        if self.request.user == exlog.exercise_log.user:
-            return True
-        return False
+        exercise = self.get_object()
+        return self.request.user == exercise.exercise_log.user
 
 class ExerciseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """

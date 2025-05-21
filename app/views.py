@@ -216,35 +216,35 @@ def results(request):
         return redirect('app:login')
     else:
         # График веса
-        matplotlib.use('Agg')
-        plt.close()
-        plt.plot([i.timestamp.date().__format__('%-0m-%-d') for i in WeightLog.objects.filter(user=request.user).order_by('timestamp')], [int(i.weight) for i in WeightLog.objects.filter(user=request.user).order_by('timestamp')], marker='o', markersize=5, color='blue')
-        plt.xlabel('Дата')
-        plt.ylabel('Вес (кг)')
+        weight_logs = list(WeightLog.objects.filter(user=request.user).order_by('timestamp'))
+        if weight_logs:
+            x_dates = [i.timestamp.date().strftime('%m-%d') for i in weight_logs]
+            y_weights = [int(i.weight) for i in weight_logs]
+            plt.close()
+            plt.plot(x_dates, y_weights, marker='o', markersize=5, color='blue')
+            plt.xlabel('Дата')
+            plt.ylabel('Вес (кг)')
+            for i, w in enumerate(weight_logs):
+                plt.annotate(int(w.weight), (x_dates[i], int(w.weight)+2), ha="center")
+            fig1 = plt.gcf()
+            buf1 = io.BytesIO()
+            fig1.savefig(buf1, format='png')
+            buf1.seek(0)
+            string = base64.b64encode(buf1.read())
+            img1 = urllib.parse.quote(string)
+            plt.close()
+        else:
+            img1 = ''
 
-        for i in range(0, len(WeightLog.objects.filter(user=request.user))):
-            plt.annotate(int(WeightLog.objects.filter(user=request.user)[i].weight), (WeightLog.objects.filter(user=request.user)[i].timestamp.date().__format__('%-0m-%-d'), int(WeightLog.objects.filter(user=request.user)[i].weight)+2), ha="center")
-
-
-        fig1 = plt.gcf()
-        buf1 = io.BytesIO()
-        fig1.savefig(buf1, format='png')
-        buf1.seek(0)
-        string = base64.b64encode(buf1.read())
-        img1 = urllib.parse.quote(string)
-        plt.close()
-
-        list = Food_Entry.objects.filter(user=request.user).order_by('date').extra({'_date': 'Date(date)'}).values(
+        food_entries = Food_Entry.objects.filter(user=request.user).order_by('date').extra({'_date': 'Date(date)'}).values(
              '_date').annotate(val=Avg('calories'), count=Count('calories'))
-
         dates = []
         cals = []
         counts = []
         avgCals = 0
-        for item in list:
+        for item in food_entries:
             date = item.get('_date')
             if isinstance(date, str):
-                # старый формат (на всякий случай)
                 parts = date.split('-')
                 dates.append(f"{parts[2]}.{parts[1]}")
             elif hasattr(date, 'strftime'):
@@ -256,24 +256,23 @@ def results(request):
             avgCals = avgCals + item.get('val') * item.get('count')
         if len(dates) > 0:
             avgCals = avgCals / len(dates)
-
-        # График калорий
-        plt.plot([i for i in dates],
-                 [int(j * counts[i]) for i,j in enumerate(cals)],
-                 marker='o', markersize=5, color='blue')
-        plt.xlabel('Дата')
-        plt.ylabel('Потреблено калорий')
-        fig2 = plt.gcf()
-
-        for i in range(0, len(dates)):
-            plt.annotate(int(cals[i] * counts[i]), (dates[i], cals[i] * counts[i] +2), ha="center")
-
-        buf2 = io.BytesIO()
-        fig2.savefig(buf2, format='png')
-        buf2.seek(0)
-        string = base64.b64encode(buf2.read())
-        img2 = urllib.parse.quote(string)
-        plt.close()
+            plt.close()
+            plt.plot([i for i in dates],
+                     [int(j * counts[i]) for i,j in enumerate(cals)],
+                     marker='o', markersize=5, color='blue')
+            plt.xlabel('Дата')
+            plt.ylabel('Потреблено калорий')
+            fig2 = plt.gcf()
+            for i in range(0, len(dates)):
+                plt.annotate(int(cals[i] * counts[i]), (dates[i], cals[i] * counts[i] +2), ha="center")
+            buf2 = io.BytesIO()
+            fig2.savefig(buf2, format='png')
+            buf2.seek(0)
+            string = base64.b64encode(buf2.read())
+            img2 = urllib.parse.quote(string)
+            plt.close()
+        else:
+            img2 = ''
 
         ex_names = []
         for i in ExerciseLog.objects.filter(user=request.user):
@@ -294,25 +293,26 @@ def results(request):
                     # Epley formula for 1RM calculation
                     rep_max.append(int(j.exercise_weight * (1 + j.num_reps / 30)))
 
-        # График силы
-        plt.plot([i.__format__('%-0m-%-d') for i in dates], [i for i in rep_max], marker='o', markersize=5, color='blue')
-        plt.title(request.GET.get('ex', 'Выберите упражнение'))
-        plt.xlabel('Дата')
-        plt.ylabel(request.GET.get('ex', '') + ' (1ПМ)')
-
-        if len(rep_max) > 0:
-            plt.ylim(min(rep_max) - 10, max(rep_max) + 10)
-
-        for i in range(0, len(dates)):
-            plt.annotate(int(rep_max[i]), (dates[i].__format__('%-0m-%-d'), rep_max[i]+2), ha="center")
-
-        fig3 = plt.gcf()
-        buf3 = io.BytesIO()
-        fig3.savefig(buf3, format='png')
-        buf3.seek(0)
-        string = base64.b64encode(buf3.read())
-        img3 = urllib.parse.quote(string)
-        plt.close()
+        if dates and rep_max:
+            x_dates = [d.strftime('%m-%d') for d in dates]
+            plt.close()
+            plt.plot(x_dates, rep_max, marker='o', markersize=5, color='blue')
+            plt.title(request.GET.get('ex', 'Выберите упражнение'))
+            plt.xlabel('Дата')
+            plt.ylabel(request.GET.get('ex', '') + ' (1ПМ)')
+            if len(rep_max) > 0:
+                plt.ylim(min(rep_max) - 10, max(rep_max) + 10)
+            for i in range(0, len(x_dates)):
+                plt.annotate(int(rep_max[i]), (x_dates[i], rep_max[i]+2), ha="center")
+            fig3 = plt.gcf()
+            buf3 = io.BytesIO()
+            fig3.savefig(buf3, format='png')
+            buf3.seek(0)
+            string = base64.b64encode(buf3.read())
+            img3 = urllib.parse.quote(string)
+            plt.close()
+        else:
+            img3 = ''
 
         weightSum = 0
         for i in WeightLog.objects.filter(user=request.user):

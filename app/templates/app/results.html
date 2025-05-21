@@ -12,12 +12,6 @@
     .results-graph-img:hover {
         box-shadow: 0 8px 32px rgba(25,135,84,0.18), 0 2px 12px rgba(0,0,0,0.10);
     }
-    .card-title.mb-3, .results-metric-title {
-        font-weight: 600;
-        color: #198754;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.5rem;
-    }
     .results-metric {
         display: flex;
         flex-direction: column;
@@ -34,6 +28,7 @@
         font-size: 2.1em;
         color: #198754;
         margin-bottom: 4px;
+        cursor: pointer;
     }
     .results-metric-value {
         font-size: 2em;
@@ -56,15 +51,21 @@
         justify-content: flex-end;
         margin-bottom: 10px;
     }
+    .date-filter-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 18px;
+    }
     @media (max-width: 700px) {
         .results-graph-img { border-radius: 10px; padding: 6px 2px; }
         .results-metric { min-height: 90px; }
-        .results-form { flex-direction: column; align-items: stretch; }
+        .results-form, .date-filter-form { flex-direction: column; align-items: stretch; }
     }
 {% endblock style %}
 {% block body %}
-    <h1>Результаты</h1>
-    <p class="text-muted">Просмотр вашего прогресса с течением времени.</p>
+    <h1>Ваши результаты</h1>
+    <p class="text-muted">Анализируйте прогресс по весу, питанию и силе упражнений.</p>
     <hr>
     <div class="mb-4">
         <a href="{% url 'app:export_csv' %}">
@@ -75,36 +76,28 @@
         </a>
     </div>
     <div class="row mb-4">
-        <div class="col-6 col-md-3">
-            <div class="results-metric">
-                <span class="icon"><i class="fa fa-line-chart"></i></span>
+        <div class="col-6 col-md-4">
+            <div class="results-metric" title="Разница между первым и последним взвешиванием">
+                <span class="icon" data-toggle="tooltip" title="Разница между первым и последним взвешиванием"><i class="fa fa-line-chart"></i></span>
                 <span class="results-metric-value">{{ change }} <span class="small">кг</span></span>
                 <span class="results-metric-label">Изменение веса</span>
-                <span class="desc">Разница между первым и последним взвешиванием</span>
+                <span class="desc">За выбранный период</span>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="results-metric">
-                <span class="icon"><i class="fa fa-bolt"></i></span>
+        <div class="col-6 col-md-4">
+            <div class="results-metric" title="Изменение силы по выбранному упражнению">
+                <span class="icon" data-toggle="tooltip" title="Изменение силы по выбранному упражнению"><i class="fa fa-bolt"></i></span>
                 <span class="results-metric-value">{{ str_change }} <span class="small">%</span></span>
                 <span class="results-metric-label">Изменение силы</span>
                 <span class="desc">{% if not request.GET.ex %}<span class="text-danger">Упражнение не выбрано</span>{% else %}Относительно первого значения{% endif %}</span>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="results-metric">
-                <span class="icon"><i class="fa fa-cutlery"></i></span>
+        <div class="col-12 col-md-4">
+            <div class="results-metric" title="Среднее дневное потребление калорий">
+                <span class="icon" data-toggle="tooltip" title="Среднее дневное потребление калорий"><i class="fa fa-cutlery"></i></span>
                 <span class="results-metric-value">{{ avg_cals }} <span class="small">ккал</span></span>
-                <span class="results-metric-label">Среднее дневное потребление</span>
+                <span class="results-metric-label">Среднее потребление</span>
                 <span class="desc">По всем дням с записями</span>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="results-metric">
-                <span class="icon"><i class="fa fa-balance-scale"></i></span>
-                <span class="results-metric-value">{{ average }} <span class="small">кг</span></span>
-                <span class="results-metric-label">Средний вес</span>
-                <span class="desc">Среднее по всем взвешиваниям</span>
             </div>
         </div>
     </div>
@@ -114,7 +107,7 @@
                 <div class="card-body">
                     <form action="/results/" class="results-form">
                         <select name="ex" id="ex" class="form-control">
-                            <option selected disabled>Выберите упражнение</option>
+                            <option value="" {% if not request.GET.ex %}selected{% endif %} disabled>Выберите упражнение</option>
                             {% for name in ex_names %}
                                 <option value="{{ name }}" {% if name == request.GET.ex %} selected {% endif %}>{{ name }}</option>
                             {% endfor %}
@@ -122,12 +115,18 @@
                         <Button class="btn btn-outline-secondary" type="submit">Показать</Button>
                     </form>
                     <h4 class="results-metric-title">
-                        <i class="fa fa-dumbbell"></i> Увеличение силы{% if request.GET.ex %} ({{ request.GET.ex }}){% endif %}
+                        <i class="fa fa-dumbbell"></i> Динамика силы{% if request.GET.ex %} ({{ request.GET.ex }}){% endif %}
                     </h4>
-                    <img style="padding-top:2%" src="data:image/png;base64,{{ img3 }}" class="results-graph-img" alt="График силы">
-                    <div class="text-muted small mt-2" style="text-align:center;">
-                        <i class="fa fa-info-circle"></i> Отслеживайте прогресс по выбранному упражнению
-                    </div>
+                    {% if img3 and request.GET.ex %}
+                        <img style="padding-top:2%" src="data:image/png;base64,{{ img3 }}" class="results-graph-img" alt="График силы">
+                        <div class="text-muted small mt-2" style="text-align:center;">
+                            <i class="fa fa-info-circle"></i> Отслеживайте прогресс по выбранному упражнению
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mt-3">Нет данных для выбранного упражнения.
+                            <a href="{% url 'exlog-add-exercise' 1 %}" class="btn btn-outline-success btn-sm ml-2">Добавить упражнение</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -137,15 +136,21 @@
                     <h4 class="card-title mb-3">
                         <i class="fa fa-fire"></i> Ежедневное потребление калорий
                     </h4>
-                    <img src="data:image/png;base64,{{ img2 }}" class="results-graph-img" alt="График калорий">
-                    <div class="text-muted small mt-2" style="text-align:center;">
-                        <i class="fa fa-info-circle"></i> Анализируйте калорийность для достижения целей питания
-                    </div>
-                    <div class="row mt-2 text-center">
-                        <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_cals }} ккал</div>
-                        <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_cals }} ккал</div>
-                        <div class="col-4"><span class="fw-bold">Среднее:</span> {{ avg_cals }} ккал</div>
-                    </div>
+                    {% if img2 %}
+                        <img src="data:image/png;base64,{{ img2 }}" class="results-graph-img" alt="График калорий">
+                        <div class="text-muted small mt-2" style="text-align:center;">
+                            <i class="fa fa-info-circle"></i> Анализируйте калорийность для достижения целей питания
+                        </div>
+                        <div class="row mt-2 text-center">
+                            <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_cals }} ккал</div>
+                            <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_cals }} ккал</div>
+                            <div class="col-4"><span class="fw-bold">Среднее:</span> {{ avg_cals }} ккал</div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mt-3">Нет данных по калориям.
+                            <a href="{% url 'exlog-add-exercise' 1 %}" class="btn btn-outline-success btn-sm ml-2">Добавить питание</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -157,17 +162,28 @@
                     <h4 class="card-title mb-3">
                         <i class="fa fa-weight"></i> История веса
                     </h4>
-                    <img src="data:image/png;base64,{{ img1 }}" class="results-graph-img" alt="График веса">
-                    <div class="text-muted small mt-2" style="text-align:center;">
-                        <i class="fa fa-info-circle"></i> Следите за динамикой веса для лучшего контроля прогресса
-                    </div>
-                    <div class="row mt-2 text-center">
-                        <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_weight }} кг</div>
-                        <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_weight }} кг</div>
-                        <div class="col-4"><span class="fw-bold">Среднее:</span> {{ average }} кг</div>
-                    </div>
+                    {% if img1 %}
+                        <img src="data:image/png;base64,{{ img1 }}" class="results-graph-img" alt="График веса">
+                        <div class="text-muted small mt-2" style="text-align:center;">
+                            <i class="fa fa-info-circle"></i> Следите за динамикой веса для лучшего контроля прогресса
+                        </div>
+                        <div class="row mt-2 text-center">
+                            <div class="col-4"><span class="fw-bold">Мин:</span> {{ min_weight }} кг</div>
+                            <div class="col-4"><span class="fw-bold">Макс:</span> {{ max_weight }} кг</div>
+                            <div class="col-4"><span class="fw-bold">Среднее:</span> {{ average }} кг</div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mt-3">Нет данных по весу.
+                            <a href="{% url 'exlog-add-exercise' 1 %}" class="btn btn-outline-success btn-sm ml-2">Добавить взвешивание</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 {% endblock body %}
