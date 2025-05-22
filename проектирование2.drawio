@@ -1,9 +1,60 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.8">
   <diagram name="Страница — 1" id="HpS7X9Dnfi1JXR5W90mp">
-    <mxGraphModel>
+    <mxGraphModel dx="1678" dy="884" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-1" value="Логотип" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="200" y="190" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="200" width="700" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-3" value="Главная" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="390" y="207.5" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-4" value="Упражнения" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="460" y="207.5" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-5" value="Журнал тренировок" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="530" y="208.13" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-6" value="Весовой журнал" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="207.5" width="110" height="33.75" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-7" value="Весовой журнал" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="750" y="213.75" width="120" height="22.5" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-8" value="Трекер питания" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="880" y="203.75" width="90" height="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-9" value="Результаты" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="980" y="210" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-12" value="Каталог упражнений" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="335" width="210" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-14" value="Поиск" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="430" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-16" value="Выберите группу мышц:" style="text;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="244" y="480" width="170" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-17" value="Группы мышц" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="530" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-18" value="Группы мышц" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="564.5" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-19" value="Группы мышц" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="600" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-20" value="&lt;h5 style=&quot;box-sizing: border-box; margin-top: 0px; font-weight: 500; line-height: 1.2; font-size: 1.25rem; color: rgb(33, 37, 41); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; text-align: left; margin-bottom: 1rem !important;&quot; class=&quot;mb-3&quot;&gt;Рекомендуемые упражнения:&lt;/h5&gt;&lt;div style=&quot;box-sizing: border-box; background: rgb(255, 255, 255); border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.13) 0px 4px 24px; margin-bottom: 22px; padding: 16px 16px 12px; display: flex; align-items: flex-start; border: 1px solid rgb(227, 227, 227); transition: box-shadow 0.2s, transform 0.2s; transform: translateY(-2px) scale(1.01); color: rgb(33, 37, 41); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, &amp;quot;Helvetica Neue&amp;quot;, Arial, &amp;quot;Noto Sans&amp;quot;, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;, &amp;quot;Noto Color Emoji&amp;quot;; font-size: 16px; text-align: left;&quot; class=&quot;exercise&quot;&gt;&lt;img style=&quot;box-sizing: border-box; vertical-align: middle; border: 1px solid rgb(227, 227, 227); width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin-right: 18px; background: rgb(233, 236, 239);&quot; alt=&quot;Бег&quot; class=&quot;exercise-image&quot; src=&quot;http://127.0.0.1:8000/app/static/exerciseImages/exerciseImages101001.jpg&quot;&gt;&lt;div style=&quot;box-sizing: border-box; flex: 1 1 0%; padding: 0px; min-width: 0px;&quot; class=&quot;exercise-text&quot;&gt;&lt;div style=&quot;box-sizing: border-box; display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 0.25rem !important;&quot; class=&quot;d-flex justify-content-between align-items-center mb-1&quot;&gt;&lt;span style=&quot;box-sizing: border-box; font-size: 1.15em; font-weight: 600; color: rgb(34, 34, 34); margin-bottom: 2px; text-wrap-mode: nowrap; overflow: hidden; text-overflow: ellipsis;&quot; class=&quot;exercise-title&quot;&gt;Бег&lt;/span&gt;&lt;a style=&quot;box-sizing: border-box; color: rgb(0, 123, 255); text-decoration-line: none; background-color: transparent;&quot; href=&quot;http://127.0.0.1:8000/exlog/log/add_ex_to_today_log/%D0%91%D0%B5%D0%B3/&quot; id=&quot;101001&quot;&gt;&lt;button style=&quot;border-radius: 6px; margin: 0px; font-family: inherit; font-size: 0.98em; line-height: 1.5; overflow: visible; appearance: button; font-weight: 400; color: rgb(40, 167, 69); vertical-align: middle; user-select: none; border-color: rgb(40, 167, 69); padding: 4px 12px; transition: background 0.15s, color 0.15s; cursor: pointer; min-width: 0px;&quot; class=&quot;btn btn-outline-success btn-sm add-btn&quot;&gt;Добавить&lt;/button&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style=&quot;box-sizing: border-box; font-size: 0.93em; color: rgb(136, 136, 136); margin-bottom: 6px;&quot; class=&quot;exercise-group&quot;&gt;Категория: Выносливость&lt;/div&gt;&lt;div style=&quot;box-sizing: border-box; font-size: 0.98em; color: rgb(68, 68, 68); margin-bottom: 2px;&quot; class=&quot;exercise-desc&quot;&gt;Бег может значительно улучшить физическое и психическое здоровье. Как форма аэробной нагрузки, бег помогает снизить стресс, улучшить здоровье сердца и даже облегчить симптомы депрессии.&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="380" width="450" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Nkk3FB2eezwEN8d_pGRC-21" value="© 2025 Active Life, Inc. Все права защищены." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="790" width="700" height="70" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
