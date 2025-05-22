@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="27.0.6">
+  <diagram name="Страница — 1" id="Eq-e2VDV7crWchQ-eqZj">
+    <mxGraphModel dx="1426" dy="1203" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-9" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-1" target="bxrxsEa_f-W-ysaqMEkW-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-1" value="Административный модуль&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="256" y="-215" width="181" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-10" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-2" target="bxrxsEa_f-W-ysaqMEkW-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-12" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-2" target="bxrxsEa_f-W-ysaqMEkW-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-2" value="Модуль аутентификации&amp;nbsp;и управления&amp;nbsp;пользователями&amp;nbsp;&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="256" y="-85" width="181" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-13" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-3" target="bxrxsEa_f-W-ysaqMEkW-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-14" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;entryX=0.983;entryY=0.39;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-3" target="bxrxsEa_f-W-ysaqMEkW-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="678" y="127" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="622" y="127" />
+              <mxPoint x="584" y="7" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-3" value="Модуль ввода и&lt;div&gt;редактирования данных&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="377" y="86" width="181" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-4" value="Модуль анализа и&lt;div&gt;визуализации данных&amp;nbsp;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="86" width="181" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-6" value="Модуль результатов&amp;nbsp; &amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="377" y="221" width="181" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="bxrxsEa_f-W-ysaqMEkW-8" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="bxrxsEa_f-W-ysaqMEkW-2" target="bxrxsEa_f-W-ysaqMEkW-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
